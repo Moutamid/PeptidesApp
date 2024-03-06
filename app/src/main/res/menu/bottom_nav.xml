@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/house_solid" />
+    <item android:id="@+id/calculator"
+        android:title="Calculator"
+        android:icon="@drawable/calculator_solid" />
+    <item android:id="@+id/details"
+        android:title="Medicine"
+        android:icon="@drawable/prescription_bottle_solid" />
+    <item android:id="@+id/info"
+        android:title="Info"
+        android:icon="@drawable/circle_info_solid" />
+</menu>
