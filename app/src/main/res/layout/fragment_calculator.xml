@@ -64,30 +64,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            tools:text="Total syringe volume:"
+            android:text="Total syringe volume:"
             android:textSize="20dp" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/syringe"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:hint="Syringe Volume"
-            app:boxCornerRadiusBottomEnd="10sp"
-            app:boxCornerRadiusBottomStart="10sp"
-            app:boxCornerRadiusTopEnd="10sp"
-            app:boxCornerRadiusTopStart="10sp"
-            app:boxStrokeColor="@color/green"
-            app:hintEnabled="true"
-            app:hintTextColor="@color/green">
+            android:background="@drawable/spinner"
+            android:layout_marginHorizontal="12dp" />
 
-            <AutoCompleteTextView
-                android:id="@+id/syringeList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/units_30"
@@ -289,7 +275,7 @@
             android:textSize="20dp" />
 
         <com.zhouyou.view.seekbar.SignSeekBar
-            android:id="@+id/seek_bar_CPU"
+            android:id="@+id/seek_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:ssb_section_text_position="below_section_mark"
@@ -303,7 +289,8 @@
             app:ssb_sign_arrow_height="0dp"
             app:ssb_sign_arrow_width="0dp"
             android:layout_marginStart="15sp"
-            app:ssb_max="100"
+            app:ssb_max="50"
+            app:ssb_section_count="10"
             app:ssb_min="0"
             android:layout_marginEnd="15sp"
             android:layout_marginBottom="15sp"
@@ -311,7 +298,7 @@
             app:ssb_track_color="@color/grey"
             app:ssb_second_track_color="@color/green"
             app:ssb_thumb_text_color="@color/green"
-            app:ssb_progress="2.5"
+            app:ssb_progress="0"
             app:ssb_section_text_color="@color/black"
             app:ssb_thumb_color="@color/white"
             app:ssb_sign_border_color="@color/green"

@@ -2,7 +2,11 @@
     <string name="app_name">Peptides App</string>
     <string name="first_section">Units? Micrograms? Milliliters? Tick Marks? Frustrated? The RPSA Dosage Calculator makes peptide math simple. This pocket reference will not only help you to dose correctly, each time, every time, but also contains an encyclopedia of wealth on all our peptides. We continuously update our product range, so that you always have the latest information at hand. Please feel free to contact us should you have any suggestions on how we can improve this app to make things more convenient for you. Happy Dosing, The RPSA Team.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+    <string name="website">https://peptides.co.za/</string>
+    <string name="phone">+27609974604</string>
+    <string name="whatsapp">https://wa.me/+27609974604</string>
+    <string name="email">info@peptides.co.za</string>
+
     <string-array name="peptide_amount">
         <item>5</item>
         <item>10</item>
@@ -10,6 +14,7 @@
     </string-array>
 
     <string-array name="syringe_volume">
+        <item>Syringe Volume</item>
         <item>0.3</item>
         <item>0.5</item>
         <item>1</item>

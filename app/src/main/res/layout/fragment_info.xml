@@ -1,14 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".fragments.InfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/green"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="Contact Info"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="12dp"
+        android:layout_marginHorizontal="12dp"
+        app:backgroundTint="@color/grey"
+        android:layout_marginTop="10dp"
+        android:text="@string/phone"
+        android:gravity="start|center"
+        android:textColor="@color/black"
+        app:icon="@drawable/phone_solid"
+        app:iconTint="@color/black"
+        app:iconGravity="end" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/whatsapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="12dp"
+        android:layout_marginHorizontal="12dp"
+        app:backgroundTint="@color/grey"
+        android:layout_marginTop="10dp"
+        android:text="@string/phone"
+        android:gravity="start|center"
+        android:textColor="@color/black"
+        app:icon="@drawable/whatsapp"
+        app:iconTint="@color/black"
+        app:iconGravity="end" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="12dp"
+        android:layout_marginHorizontal="12dp"
+        app:backgroundTint="@color/grey"
+        android:layout_marginTop="10dp"
+        android:text="@string/email"
+        android:gravity="start|center"
+        android:textColor="@color/black"
+        app:icon="@drawable/envelope_solid"
+        app:iconTint="@color/black"
+        app:iconGravity="end" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cornerRadius="12dp"
+        android:layout_marginHorizontal="12dp"
+        app:backgroundTint="@color/grey"
+        android:layout_marginTop="4dp"
+        android:text="@string/website"
+        android:gravity="start|center"
+        android:textColor="@color/black"
+        app:icon="@drawable/earth_americas_solid"
+        app:iconTint="@color/black"
+        app:iconGravity="end" />
+
+</LinearLayout>
