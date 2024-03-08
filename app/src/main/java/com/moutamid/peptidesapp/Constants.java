@@ -29,37 +29,9 @@ import java.util.Locale;
 
 public class Constants {
 
-    static Dialog dialog;
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
-
-    public static String getFormattedDate(long date){
-        return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(date);
-    }
-
-    public static void initDialog(Context context){
-        dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-      //  dialog.setContentView(R.layout.loading_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setCancelable(false);
-    }
-
-    public static void showDialog(){
-        dialog.show();
-    }
-
-    public static void dismissDialog(){
-        dialog.dismiss();
-    }
-
-    public static boolean checkInternet(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkCapabilities networkCapabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            return networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
-        }
-        return false;
-    }
+    public static final String PRODUCTS = "PRODUCTS";
+    public static final String BODY_TYPE = "BODY_TYPE";
+    public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
 
     public static void checkApp(Activity activity) {
         String appName = "peptidesapp";

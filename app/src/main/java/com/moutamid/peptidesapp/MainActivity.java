@@ -7,12 +7,18 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fxn.stash.Stash;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
 import com.moutamid.peptidesapp.databinding.ActivityMainBinding;
 import com.moutamid.peptidesapp.fragments.CalculatorFragment;
 import com.moutamid.peptidesapp.fragments.DetailsFragment;
 import com.moutamid.peptidesapp.fragments.HomeFragment;
 import com.moutamid.peptidesapp.fragments.InfoFragment;
+import com.moutamid.peptidesapp.model.ProductModel;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
@@ -27,6 +33,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         binding.bottomNav.setItemActiveIndicatorColor(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
         binding.bottomNav.setOnNavigationItemSelectedListener(this);
         binding.bottomNav.setSelectedItemId(R.id.home);
+
+        new Thread(() -> {
+            Constants.databaseReference().child(Constants.PRODUCTS).get().addOnSuccessListener(dataSnapshot -> {
+                if (dataSnapshot.exists()) {
+                    ArrayList<ProductModel> list = Stash.getArrayList(Constants.PRODUCTS_LIST, ProductModel.class);
+                    list.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        ProductModel model = snapshot.getValue(ProductModel.class);
+                        list.add(model);
+                    }
+                    Stash.put(Constants.PRODUCTS_LIST, list);
+                    ArrayList<String> bodyTypes = list.stream()
+                            .map(ProductModel::getBodyType)
+                            .distinct()
+                            .collect(Collectors.toCollection(ArrayList::new));
+                    Stash.put(Constants.BODY_TYPE, bodyTypes);
+                }
+            });
+        }).start();
+
     }
 
     @Override

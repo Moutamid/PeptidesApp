@@ -2,6 +2,7 @@
     <string name="app_name">Peptides App</string>
     <string name="first_section">Units? Micrograms? Milliliters? Tick Marks? Frustrated? The RPSA Dosage Calculator makes peptide math simple. This pocket reference will not only help you to dose correctly, each time, every time, but also contains an encyclopedia of wealth on all our peptides. We continuously update our product range, so that you always have the latest information at hand. Please feel free to contact us should you have any suggestions on how we can improve this app to make things more convenient for you. Happy Dosing, The RPSA Team.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dolorem eaque ipsam magni, recusandae ut.</string>
     <string name="website">https://peptides.co.za/</string>
     <string name="phone">+27609974604</string>
     <string name="whatsapp">https://wa.me/+27609974604</string>
@@ -32,6 +33,39 @@
         <item>100</item>
         <item>250</item>
         <item>500</item>
+    </string-array>
+
+    <string-array name="bodyGoals">
+        <item>To Burn Fat</item>
+        <item>To Gain Muscle</item>
+        <item>To Improve Strength</item>
+        <item>To Improve Muscle Recovery</item>
+        <item>To Look Younger</item>
+        <item>To Help Repair Depression, Brain Disease, Concentration, Memory</item>
+        <item>To Repair Heart Blood Issues</item>
+        <item>To Balance Hormones</item>
+        <item>To Lose Weight</item>
+        <item>To Recover From An Injury</item>
+        <item>To Get Cholesterol Support</item>
+        <item>To Improve My AntiBiotics</item>
+        <item>To Get Cancer Support</item>
+        <item>To Get Eye Support</item>
+        <item>To Improve Fertility</item>
+        <item>To Grow My Hair</item>
+        <item>To Reduce Inflammation</item>
+        <item>To Increase My Libido</item>
+        <item>To Manage My Insulin</item>
+        <item>To Boost My Immunity</item>
+        <item>To Get PCT Support</item>
+        <item>To Improve My Sleep</item>
+        <item>To Tan Better</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>PEPTIDES</item>
+        <item>PEPTIDE – NASAL SPRAYS</item>
+        <item>PEPTIDE – BLENDS</item>
+        <item>SARMS – Selective Androgen Receptor Modulators</item>
     </string-array>
     
 </resources>
