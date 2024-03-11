@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
-
+    public BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +30,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(binding.getRoot());
         Constants.checkApp(this);
 
-        binding.bottomNav.setItemActiveIndicatorColor(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
-        binding.bottomNav.setOnNavigationItemSelectedListener(this);
-        binding.bottomNav.setSelectedItemId(R.id.home);
+        bottomNavigationView = binding.bottomNav;
+
+        bottomNavigationView.setItemActiveIndicatorColor(ColorStateList.valueOf(getResources().getColor(R.color.grey)));
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home);
 
         new Thread(() -> {
             Constants.databaseReference().child(Constants.PRODUCTS).get().addOnSuccessListener(dataSnapshot -> {

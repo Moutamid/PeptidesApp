@@ -1,6 +1,11 @@
 package com.moutamid.peptidesapp.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +15,15 @@ import android.widget.ArrayAdapter;
 
 import androidx.fragment.app.Fragment;
 
+import com.fxn.stash.Stash;
+import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.MainActivity;
 import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.databinding.FragmentCalculatorBinding;
+import com.moutamid.peptidesapp.model.ProductModel;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class CalculatorFragment extends Fragment {
     private static final String TAG = "CalculatorFragment";
@@ -21,6 +31,7 @@ public class CalculatorFragment extends Fragment {
     ArrayAdapter<String> syringe, peptide_dose, peptide, bacteriostatic;
     String[] syringeList, peptideList, bacteriostaticList, peptide_dose_list;
     String volumn = "";
+    ArrayList<ProductModel> productList;
 
     public CalculatorFragment() {
         // Required empty public constructor
@@ -40,6 +51,21 @@ public class CalculatorFragment extends Fragment {
         peptide_dose = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, peptide_dose_list);
         peptide = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, peptideList);
         bacteriostatic = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_dropdown_item, bacteriostaticList);
+
+        productList = Stash.getArrayList(Constants.PRODUCTS_LIST, ProductModel.class);
+        ArrayList<String> products = new ArrayList<>();
+        for (ProductModel model : productList) {
+            products.add(model.getName());
+        }
+        ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
+        binding.productsList.setAdapter(productAdapter);
+
+        binding.productsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setUI();
+            }
+        });
 
         syringe.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -85,8 +111,29 @@ public class CalculatorFragment extends Fragment {
             }
         });
 
-
         return binding.getRoot();
+    }
+
+    private void setUI() {
+        ProductModel productModel = productList.stream().filter(model -> model.getName().equals(binding.products.getEditText().getText().toString())).findFirst().orElse(null);
+        if (productModel != null) {
+            String originalText = productModel.getShortDesc() + " ";
+            String learnMoreText = "Learn More";
+            String combinedText = originalText + learnMoreText;
+            // Create a SpannableString
+            SpannableString spannableString = new SpannableString(combinedText);
+
+            int blueColor = Color.BLUE;
+            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.detail.setText(spannableString);
+
+            binding.detail.setOnClickListener(v -> {
+               Stash.put(Constants.PASS, productModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
+            });
+        }
     }
 
     public static double calculatePeptideDose(double peptideAmountInVial, double bacteriostaticWaterAmount, double syringeVolume) {
@@ -131,7 +178,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void changeValue() {
-        if (valid()){
+        if (valid()) {
             double peptideAmountInVial = Double.parseDouble(binding.peptide.getEditText().getText().toString());
             double bacteriostaticWaterAmount = Double.parseDouble(binding.bacteriostatic.getEditText().getText().toString());
             double targetPeptideDose = Double.parseDouble(binding.peptideDose.getEditText().getText().toString());

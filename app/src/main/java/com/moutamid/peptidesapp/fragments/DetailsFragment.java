@@ -24,6 +24,8 @@ import java.util.ArrayList;
 public class DetailsFragment extends Fragment {
     FragmentDetailsBinding binding;
     ArrayList<ProductModel> productList;
+    ArrayList<String> products;
+    ArrayList<String> bodyList;
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -33,9 +35,9 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDetailsBinding.inflate(getLayoutInflater(), container, false);
 
-        ArrayList<String> bodyList = Stash.getArrayList(Constants.BODY_TYPE, String.class);
+        bodyList = Stash.getArrayList(Constants.BODY_TYPE, String.class);
         productList = Stash.getArrayList(Constants.PRODUCTS_LIST, ProductModel.class);
-        ArrayList<String> products = new ArrayList<>();
+        products = new ArrayList<>();
         for (ProductModel model : productList){
             products.add(model.getName());
         }
@@ -44,6 +46,12 @@ public class DetailsFragment extends Fragment {
 
         binding.bodyGoalsList.setAdapter(bodyAdapter);
         binding.productsList.setAdapter(productAdapter);
+
+        ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
+
+        if (passModel != null){
+            setPassData(passModel);
+        }
 
         binding.bodyGoals.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,6 +117,42 @@ public class DetailsFragment extends Fragment {
         });
 
         return binding.getRoot();
+    }
+
+    private void setPassData(ProductModel productModel) {
+        try {
+            int positionInBodyList = bodyList.indexOf(productModel.getBodyType());
+            int positionInProductList = products.indexOf(productModel.getName());
+            if (positionInBodyList != -1 && positionInBodyList < bodyList.size()) {
+                binding.bodyGoalsList.setSelection(positionInBodyList);
+            }
+            if (positionInProductList != -1 && positionInProductList < products.size()) {
+                binding.productsList.setSelection(positionInProductList);
+            }
+            Glide.with(this).load(productModel.getImage()).into(binding.imageView);
+            binding.shortDesc.setText(productModel.getShortDesc());
+            binding.longDesc.setText(productModel.getLongDesc());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Stash.clear(Constants.PASS);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Stash.clear(Constants.PASS);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Stash.clear(Constants.PASS);
     }
 
     private void setUI() {

@@ -57,8 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            tools:text="@string/first_section"
-            android:textSize="20dp" />
+            android:text="> Select Product to see it's description."
+            android:textSize="18dp" />
 
         <TextView
             android:layout_width="match_parent"
