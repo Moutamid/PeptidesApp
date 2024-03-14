@@ -31,6 +31,16 @@ public class DetailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
+
+        if (passModel != null){
+            setPassData(passModel);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDetailsBinding.inflate(getLayoutInflater(), container, false);
@@ -46,12 +56,6 @@ public class DetailsFragment extends Fragment {
 
         binding.bodyGoalsList.setAdapter(bodyAdapter);
         binding.productsList.setAdapter(productAdapter);
-
-        ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
-
-        if (passModel != null){
-            setPassData(passModel);
-        }
 
         binding.bodyGoals.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
