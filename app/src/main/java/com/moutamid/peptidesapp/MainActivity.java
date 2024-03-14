@@ -18,6 +18,8 @@ import com.moutamid.peptidesapp.fragments.InfoFragment;
 import com.moutamid.peptidesapp.model.ProductModel;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -46,10 +48,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         list.add(model);
                     }
                     Stash.put(Constants.PRODUCTS_LIST, list);
-                    ArrayList<String> bodyTypes = list.stream()
-                            .map(ProductModel::getBodyType)
-                            .distinct()
-                            .collect(Collectors.toCollection(ArrayList::new));
+                    Set<String> uniqueOptions = new HashSet<>();
+                    for (ProductModel item : list) {
+                        String[] options = item.getBodyType().split(", ");
+                        for (String option : options) {
+                            uniqueOptions.add(option.trim());
+                        }
+                    }
+                    ArrayList<String> bodyTypes = new ArrayList<>(uniqueOptions);
                     Stash.put(Constants.BODY_TYPE, bodyTypes);
                 }
             });

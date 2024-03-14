@@ -2,11 +2,12 @@ package com.moutamid.peptidesapp.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +112,76 @@ public class CalculatorFragment extends Fragment {
             }
         });
 
+        binding.bacteriostaticList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeValue();
+            }
+        });
+
+        binding.bacteriostatic.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeValue();
+            }
+        });
+
+        binding.peptideList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeValue();
+            }
+        });
+
+        binding.peptide.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeValue();
+            }
+        });
+
+
+        binding.peptideDoseList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                changeValue();
+            }
+        });
+
+        binding.peptideDose.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                changeValue();
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -136,18 +207,12 @@ public class CalculatorFragment extends Fragment {
         }
     }
 
-    public static double calculatePeptideDose(double peptideAmountInVial, double bacteriostaticWaterAmount, double syringeVolume) {
-        double peptideAmountMicrograms = peptideAmountInVial * 1000;
-        return (peptideAmountMicrograms / bacteriostaticWaterAmount) * syringeVolume;
-    }
-
-    public static String calculateSyringePull(double targetPeptideDose, double peptideAmountInVial, double bacteriostaticWaterAmount, double syringeVolume) {
-        DecimalFormat df = new DecimalFormat("#.#");
-        double calculatedDose = calculatePeptideDose(peptideAmountInVial, bacteriostaticWaterAmount, syringeVolume);
-        if (Math.abs(calculatedDose - targetPeptideDose) < 0.1) {
-            return "To have a dose of " + df.format(targetPeptideDose) + " mcg, pull the syringe to " + df.format(syringeVolume) + " ml";
-        }
-        return "" + df.format(syringeVolume);
+// 200 / 2ml water divided by 5000 (5mg) x 250 = 10
+    public static float calculateSyringePull(double targetPeptideDose, double peptideAmountInVial, double bacteriostaticWaterAmount) {
+        float water = (float) (bacteriostaticWaterAmount * 100);
+        float vial = (float) (peptideAmountInVial * 1000);
+        float dose = (float) (targetPeptideDose);
+        return water/vial * dose;
     }
 
     private void unit30() {
@@ -183,8 +248,8 @@ public class CalculatorFragment extends Fragment {
             double bacteriostaticWaterAmount = Double.parseDouble(binding.bacteriostatic.getEditText().getText().toString());
             double targetPeptideDose = Double.parseDouble(binding.peptideDose.getEditText().getText().toString());
             double syringeSizes = Double.parseDouble(volumn);
-            String syringePullInfo = calculateSyringePull(targetPeptideDose, peptideAmountInVial, bacteriostaticWaterAmount, syringeSizes);
-            Log.d(TAG, "changeValue: " + syringePullInfo);
+            float syringePullInfo = calculateSyringePull(targetPeptideDose, peptideAmountInVial, bacteriostaticWaterAmount);
+            binding.seekBar.setProgress(syringePullInfo);
         }
     }
 

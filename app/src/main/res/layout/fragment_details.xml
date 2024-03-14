@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:text="Product Detail"
+                android:text="RPSA Pocket Reference"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Peptides App</string>
+    <string name="app_name">RPSA - Peptide Pocket Reference</string>
     <string name="first_section">Units? Micrograms? Milliliters? Tick Marks? Frustrated? The RPSA Dosage Calculator makes peptide math simple. This pocket reference will not only help you to dose correctly, each time, every time, but also contains an encyclopedia of wealth on all our peptides. We continuously update our product range, so that you always have the latest information at hand. Please feel free to contact us should you have any suggestions on how we can improve this app to make things more convenient for you. Happy Dosing, The RPSA Team.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur dolorem eaque ipsam magni, recusandae ut.</string>

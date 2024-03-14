@@ -25,6 +25,12 @@
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="Thank you for using the RPSA Pocket Reference. We continuously add new products to make sure you stay informed of the latest peptide information" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/phone"
         android:layout_width="match_parent"
@@ -34,6 +40,7 @@
         app:backgroundTint="@color/grey"
         android:layout_marginTop="10dp"
         android:text="@string/phone"
+        android:visibility="gone"
         android:gravity="start|center"
         android:textColor="@color/black"
         app:icon="@drawable/phone_solid"
@@ -48,7 +55,7 @@
         android:layout_marginHorizontal="12dp"
         app:backgroundTint="@color/grey"
         android:layout_marginTop="10dp"
-        android:text="@string/phone"
+        android:text="WhatsApp Us"
         android:gravity="start|center"
         android:textColor="@color/black"
         app:icon="@drawable/whatsapp"
@@ -63,7 +70,7 @@
         android:layout_marginHorizontal="12dp"
         app:backgroundTint="@color/grey"
         android:layout_marginTop="10dp"
-        android:text="@string/email"
+        android:text="Email us"
         android:gravity="start|center"
         android:textColor="@color/black"
         app:icon="@drawable/envelope_solid"
@@ -78,7 +85,7 @@
         android:layout_marginHorizontal="12dp"
         app:backgroundTint="@color/grey"
         android:layout_marginTop="4dp"
-        android:text="@string/website"
+        android:text="Visit our Online Store"
         android:gravity="start|center"
         android:textColor="@color/black"
         app:icon="@drawable/earth_americas_solid"
