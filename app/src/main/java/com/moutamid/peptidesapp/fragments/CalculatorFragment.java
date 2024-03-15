@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
 import com.moutamid.peptidesapp.MainActivity;
@@ -185,6 +186,65 @@ public class CalculatorFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ProductModel passModel = (ProductModel) Stash.getObject(Constants.DOSE, ProductModel.class);
+        if (passModel != null){
+            setPassData(passModel);
+        }
+    }
+
+    private void setPassData(ProductModel productModel) {
+        try {
+            String originalText = productModel.getShortDesc() + " ";
+            String learnMoreText = "Learn More";
+            String combinedText = originalText + learnMoreText;
+            // Create a SpannableString
+            SpannableString spannableString = new SpannableString(combinedText);
+
+            int blueColor = Color.BLUE;
+            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.detail.setText(spannableString);
+
+            binding.detail.setOnClickListener(v -> {
+                Stash.put(Constants.PASS, productModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
+            });
+
+            if (productModel.isSARMS()){
+                binding.calculator.setVisibility(View.GONE);
+                binding.cardImage.setVisibility(View.VISIBLE);
+            } else {
+                binding.calculator.setVisibility(View.VISIBLE);
+                binding.cardImage.setVisibility(View.GONE);
+            }
+            Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Stash.clear(Constants.DOSE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Stash.clear(Constants.DOSE);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Stash.clear(Constants.DOSE);
+    }
+
     private void setUI() {
         ProductModel productModel = productList.stream().filter(model -> model.getName().equals(binding.products.getEditText().getText().toString())).findFirst().orElse(null);
         if (productModel != null) {
@@ -200,10 +260,19 @@ public class CalculatorFragment extends Fragment {
             binding.detail.setText(spannableString);
 
             binding.detail.setOnClickListener(v -> {
-               Stash.put(Constants.PASS, productModel);
+                Stash.put(Constants.PASS, productModel);
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
             });
+
+            if (productModel.isSARMS()){
+                binding.calculator.setVisibility(View.GONE);
+                binding.cardImage.setVisibility(View.VISIBLE);
+            } else {
+                binding.calculator.setVisibility(View.VISIBLE);
+                binding.cardImage.setVisibility(View.GONE);
+            }
+            Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
         }
     }
 

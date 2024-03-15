@@ -32,6 +32,7 @@ public class Constants {
     public static final String PRODUCTS = "PRODUCTS";
     public static final String BODY_TYPE = "BODY_TYPE";
     public static final String PASS = "PASS";
+    public static final String DOSE = "DOSE";
     public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
 
     public static void checkApp(Activity activity) {

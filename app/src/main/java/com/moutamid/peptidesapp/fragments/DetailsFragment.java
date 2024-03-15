@@ -1,11 +1,16 @@
 package com.moutamid.peptidesapp.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +20,7 @@ import android.widget.ArrayAdapter;
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.MainActivity;
 import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.databinding.FragmentDetailsBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
@@ -33,17 +39,6 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
-
-        if (passModel != null){
-            setPassData(passModel);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        binding = FragmentDetailsBinding.inflate(getLayoutInflater(), container, false);
 
         bodyList = Stash.getArrayList(Constants.BODY_TYPE, String.class);
         productList = Stash.getArrayList(Constants.PRODUCTS_LIST, ProductModel.class);
@@ -56,6 +51,17 @@ public class DetailsFragment extends Fragment {
 
         binding.bodyGoalsList.setAdapter(bodyAdapter);
         binding.productsList.setAdapter(productAdapter);
+
+        ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
+        if (passModel != null){
+            setPassData(passModel);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        binding = FragmentDetailsBinding.inflate(getLayoutInflater(), container, false);
 
         binding.bodyGoals.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -125,17 +131,35 @@ public class DetailsFragment extends Fragment {
 
     private void setPassData(ProductModel productModel) {
         try {
+            binding.cardImage.setVisibility(View.VISIBLE);
+            Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
+            binding.longDesc.setText(productModel.getLongDesc());
+
+            String originalText = productModel.getShortDesc() + " ";
+            String learnMoreText = productModel.isSARMS() ? "Calculate Dose" : "Dosage Information.";
+            String combinedText = originalText + learnMoreText;
+            // Create a SpannableString
+            SpannableString spannableString = new SpannableString(combinedText);
+
+            int blueColor = Color.BLUE;
+            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.shortDesc.setText(spannableString);
+
+            binding.shortDesc.setOnClickListener(v -> {
+                Stash.put(Constants.DOSE, productModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.calculator);
+            });
+
             int positionInBodyList = bodyList.indexOf(productModel.getBodyType());
-            int positionInProductList = products.indexOf(productModel.getName());
+            int positionInProductList = products.indexOf(productModel.getName().trim());
             if (positionInBodyList != -1 && positionInBodyList < bodyList.size()) {
                 binding.bodyGoalsList.setSelection(positionInBodyList);
             }
             if (positionInProductList != -1 && positionInProductList < products.size()) {
                 binding.productsList.setSelection(positionInProductList);
             }
-            Glide.with(this).load(productModel.getImage()).into(binding.imageView);
-            binding.shortDesc.setText(productModel.getShortDesc());
-            binding.longDesc.setText(productModel.getLongDesc());
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -163,9 +187,12 @@ public class DetailsFragment extends Fragment {
         ProductModel productModel = null;
         for (ProductModel model : productList){
             if (!binding.bodyGoals.getEditText().getText().toString().isEmpty()){
-                if (model.getName().equals(binding.products.getEditText().getText().toString()) && model.getBodyType().equals(binding.bodyGoals.getEditText().getText().toString())){
-                    productModel = model;
-                    break;
+                String[] bodyType = model.getBodyType().split(", ");
+                for (String type : bodyType) {
+                    if (model.getName().equals(binding.products.getEditText().getText().toString()) && type.trim().equals(binding.bodyGoals.getEditText().getText().toString().trim())) {
+                        productModel = model;
+                        break;
+                    }
                 }
             } else {
                 if (model.getName().equals(binding.products.getEditText().getText().toString())){
@@ -175,9 +202,26 @@ public class DetailsFragment extends Fragment {
             }
         }
         if (productModel != null){
+            binding.cardImage.setVisibility(View.VISIBLE);
             Glide.with(this).load(productModel.getImage()).into(binding.imageView);
-            binding.shortDesc.setText(productModel.getShortDesc());
+
+            String originalText = productModel.getShortDesc() + " ";
+            String learnMoreText = productModel.isSARMS() ? "Calculate Dose" : "Dosage Information.";
+            String combinedText = originalText + learnMoreText;
+            // Create a SpannableString
+            SpannableString spannableString = new SpannableString(combinedText);
+
+            int blueColor = Color.BLUE;
+            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.shortDesc.setText(spannableString);
             binding.longDesc.setText(productModel.getLongDesc());
+            ProductModel finalProductModel = productModel;
+            binding.shortDesc.setOnClickListener(v -> {
+                Stash.put(Constants.DOSE, finalProductModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.calculator);
+            });
         }
     }
 
@@ -185,8 +229,11 @@ public class DetailsFragment extends Fragment {
         if (b){
             ArrayList<String> products = new ArrayList<>();
             for (ProductModel model : productList){
-                if (model.getBodyType().equals(binding.bodyGoals.getEditText().getText().toString())){
-                    products.add(model.getName());
+                String[] bodyType = model.getBodyType().split(", ");
+                for (String type : bodyType) {
+                    if (type.trim().equals(binding.bodyGoals.getEditText().getText().toString().trim())) {
+                        products.add(model.getName());
+                    }
                 }
             }
             ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
