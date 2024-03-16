@@ -198,7 +198,7 @@ public class CalculatorFragment extends Fragment {
     private void setPassData(ProductModel productModel) {
         try {
             String originalText = productModel.getShortDesc() + " ";
-            String learnMoreText = "Learn More";
+            String learnMoreText = "Product Info";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
             SpannableString spannableString = new SpannableString(combinedText);

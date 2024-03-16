@@ -38,6 +38,33 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
+
+        Stash.clear(Constants.PASS);
+        Stash.clear(Constants.DOSE);
+
+        new Thread(() -> {
+            Constants.databaseReference().child(Constants.PRODUCTS).get().addOnSuccessListener(dataSnapshot -> {
+                if (dataSnapshot.exists()) {
+                    ArrayList<ProductModel> list = Stash.getArrayList(Constants.PRODUCTS_LIST, ProductModel.class);
+                    list.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        ProductModel model = snapshot.getValue(ProductModel.class);
+                        list.add(model);
+                    }
+                    Stash.put(Constants.PRODUCTS_LIST, list);
+                    Set<String> uniqueOptions = new HashSet<>();
+                    for (ProductModel item : list) {
+                        String[] options = item.getBodyType().split(", ");
+                        for (String option : options) {
+                            uniqueOptions.add(option.trim());
+                        }
+                    }
+                    ArrayList<String> bodyTypes = new ArrayList<>(uniqueOptions);
+                    Stash.put(Constants.BODY_TYPE, bodyTypes);
+                }
+            });
+        }).start();
+
     }
 
     @Override
