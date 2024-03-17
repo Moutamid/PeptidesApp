@@ -197,7 +197,7 @@ public class CalculatorFragment extends Fragment {
 
     private void setPassData(ProductModel productModel) {
         try {
-            String originalText = productModel.getShortDesc() + " ";
+            String originalText = productModel.getDoseInfo() + " ";
             String learnMoreText = "Product Info";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
@@ -248,8 +248,8 @@ public class CalculatorFragment extends Fragment {
     private void setUI() {
         ProductModel productModel = productList.stream().filter(model -> model.getName().equals(binding.products.getEditText().getText().toString())).findFirst().orElse(null);
         if (productModel != null) {
-            String originalText = productModel.getShortDesc() + " ";
-            String learnMoreText = "Learn More";
+            String originalText = productModel.getDoseInfo() + " ";
+            String learnMoreText = "Product Info";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
             SpannableString spannableString = new SpannableString(combinedText);

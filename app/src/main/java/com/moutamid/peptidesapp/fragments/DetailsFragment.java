@@ -135,7 +135,7 @@ public class DetailsFragment extends Fragment {
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
             binding.longDesc.setText(productModel.getLongDesc());
 
-            String originalText = productModel.getShortDesc() + " ";
+            String originalText = productModel.getDoseInfo() + " ";
             String learnMoreText = productModel.isSARMS() ? "Calculate Dose" : "Dosage Information.";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
@@ -144,7 +144,9 @@ public class DetailsFragment extends Fragment {
             int blueColor = Color.BLUE;
             spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.shortDesc.setText(spannableString);
+            binding.doseInfo.setText(spannableString);
+
+            binding.shortDesc.setText(productModel.getShortDesc());
 
             binding.shortDesc.setOnClickListener(v -> {
                 Stash.put(Constants.DOSE, productModel);
