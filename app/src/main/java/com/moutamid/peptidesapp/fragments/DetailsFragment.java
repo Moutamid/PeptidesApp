@@ -135,8 +135,8 @@ public class DetailsFragment extends Fragment {
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
             binding.longDesc.setText(productModel.getLongDesc());
 
-            String originalText = productModel.getDoseInfo() + " ";
-            String learnMoreText = productModel.isSARMS() ? "Calculate Dose" : "Dosage Information.";
+            String originalText = productModel.getShortDesc() + " ";
+            String learnMoreText = productModel.isSARMS() ? "Dosage Information." : "Calculate Dose";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
             SpannableString spannableString = new SpannableString(combinedText);
@@ -146,7 +146,7 @@ public class DetailsFragment extends Fragment {
             spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             binding.doseInfo.setText(spannableString);
 
-            binding.shortDesc.setText(productModel.getShortDesc());
+            binding.shortDesc.setText(spannableString);
 
             binding.shortDesc.setOnClickListener(v -> {
                 Stash.put(Constants.DOSE, productModel);
@@ -208,7 +208,7 @@ public class DetailsFragment extends Fragment {
             Glide.with(this).load(productModel.getImage()).into(binding.imageView);
 
             String originalText = productModel.getShortDesc() + " ";
-            String learnMoreText = productModel.isSARMS() ? "Calculate Dose" : "Dosage Information.";
+            String learnMoreText = productModel.isSARMS() ? "Dosage Information." : "Calculate Dose";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
             SpannableString spannableString = new SpannableString(combinedText);
@@ -216,6 +216,8 @@ public class DetailsFragment extends Fragment {
             int blueColor = Color.BLUE;
             spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.doseInfo.setText(spannableString);
+
             binding.shortDesc.setText(spannableString);
             binding.longDesc.setText(productModel.getLongDesc());
             ProductModel finalProductModel = productModel;
