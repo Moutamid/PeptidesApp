@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.moutamid.peptidesapp.Menu;
 import com.moutamid.peptidesapp.R;
 
 public class InfoFragment extends Fragment {
@@ -26,10 +29,18 @@ public class InfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_info, container, false);
 
         MaterialButton website = view.findViewById(R.id.website);
+        View toolbar = view.findViewById(R.id.toolbar);
         MaterialButton email = view.findViewById(R.id.email);
         MaterialButton phone = view.findViewById(R.id.phone);
         MaterialButton whatsapp = view.findViewById(R.id.whatsapp);
         MaterialButton exit = view.findViewById(R.id.exit);
+
+        TextView title = toolbar.findViewById(R.id.title);
+        MaterialCardView menu = toolbar.findViewById(R.id.menu);
+
+        title.setText("Contact Info");
+
+        menu.setOnClickListener(v -> new Menu(requireActivity()).showPopup(v));
 
         website.setOnClickListener(v -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.website))));

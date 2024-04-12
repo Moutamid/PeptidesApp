@@ -34,6 +34,7 @@ public class Constants {
     public static final String PASS = "PASS";
     public static final String DOSE = "DOSE";
     public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
+    public static final String FAVORITE_LIST = "FAVORITE_LIST";
 
     public static void checkApp(Activity activity) {
         String appName = "peptidesapp";

@@ -31,11 +31,18 @@
         android:gravity="center"
         android:textSize="32dp" />
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="15dp"
-        android:text="@string/first_section"
-        android:textSize="14dp" />
+        android:fillViewport="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:text="@string/first_section"
+            android:textSize="14dp" />
+
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

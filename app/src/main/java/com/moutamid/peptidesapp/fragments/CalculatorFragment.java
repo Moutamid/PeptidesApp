@@ -19,12 +19,12 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
-import com.moutamid.peptidesapp.MainActivity;
+import com.moutamid.peptidesapp.activities.MainActivity;
+import com.moutamid.peptidesapp.Menu;
 import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.databinding.FragmentCalculatorBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class CalculatorFragment extends Fragment {
@@ -43,6 +43,10 @@ public class CalculatorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentCalculatorBinding.inflate(getLayoutInflater(), container, false);
+
+        binding.toolbar.title.setText("Dosage Calculator");
+
+        binding.toolbar.menu.setOnClickListener(v -> new Menu(requireActivity()).showPopup(v));
 
         syringeList = getResources().getStringArray(R.array.syringe_volume);
         peptideList = getResources().getStringArray(R.array.peptide_amount);

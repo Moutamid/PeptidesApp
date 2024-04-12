@@ -1,4 +1,4 @@
-package com.moutamid.peptidesapp;
+package com.moutamid.peptidesapp.activities;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fxn.stash.Stash;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
+import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.databinding.ActivityMainBinding;
 import com.moutamid.peptidesapp.fragments.CalculatorFragment;
 import com.moutamid.peptidesapp.fragments.DetailsFragment;

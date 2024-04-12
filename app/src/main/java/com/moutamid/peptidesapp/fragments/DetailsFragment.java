@@ -2,9 +2,6 @@ package com.moutamid.peptidesapp.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -16,12 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
-import com.moutamid.peptidesapp.MainActivity;
+import com.moutamid.peptidesapp.Menu;
 import com.moutamid.peptidesapp.R;
+import com.moutamid.peptidesapp.activities.MainActivity;
 import com.moutamid.peptidesapp.databinding.FragmentDetailsBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
 
@@ -32,6 +33,7 @@ public class DetailsFragment extends Fragment {
     ArrayList<ProductModel> productList;
     ArrayList<String> products;
     ArrayList<String> bodyList;
+
     public DetailsFragment() {
         // Required empty public constructor
     }
@@ -43,7 +45,7 @@ public class DetailsFragment extends Fragment {
         bodyList = Stash.getArrayList(Constants.BODY_TYPE, String.class);
         productList = Stash.getArrayList(Constants.PRODUCTS_LIST, ProductModel.class);
         products = new ArrayList<>();
-        for (ProductModel model : productList){
+        for (ProductModel model : productList) {
             products.add(model.getName());
         }
         ArrayAdapter<String> bodyAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, bodyList);
@@ -53,7 +55,7 @@ public class DetailsFragment extends Fragment {
         binding.productsList.setAdapter(productAdapter);
 
         ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
-        if (passModel != null){
+        if (passModel != null) {
             setPassData(passModel);
         }
     }
@@ -63,6 +65,7 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDetailsBinding.inflate(getLayoutInflater(), container, false);
 
+        binding.toolbar.menu.setOnClickListener(v -> new Menu(requireActivity()).showPopup(v));
         binding.bodyGoals.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -131,6 +134,18 @@ public class DetailsFragment extends Fragment {
 
     private void setPassData(ProductModel productModel) {
         try {
+            binding.favorite.setVisibility(View.VISIBLE);
+            binding.favorite.setEnabled(true);
+            binding.favorite.setText("Add to favorites");
+            binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_regular));
+            ArrayList<ProductModel> Favrtlist = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
+            for (ProductModel favr : Favrtlist){
+                if (favr.getID().equals(productModel.getID())){
+                    binding.favorite.setText("Already added to favorites");
+                    binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_solid));
+                    binding.favorite.setEnabled(false);
+                }
+            }
             binding.cardImage.setVisibility(View.VISIBLE);
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
             binding.longDesc.setText(productModel.getLongDesc());
@@ -162,7 +177,18 @@ public class DetailsFragment extends Fragment {
             if (positionInProductList != -1 && positionInProductList < products.size()) {
                 binding.productsList.setSelection(positionInProductList);
             }
-        } catch (Exception e){
+
+            binding.favorite.setOnClickListener(v -> {
+                ArrayList<ProductModel> list = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
+                list.add(productModel);
+                Stash.put(Constants.FAVORITE_LIST, list);
+                binding.favorite.setText("Added to favorites");
+                binding.favorite.setEnabled(false);
+                Toast.makeText(requireContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
+                binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_solid));
+            });
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -187,8 +213,8 @@ public class DetailsFragment extends Fragment {
 
     private void setUI() {
         ProductModel productModel = null;
-        for (ProductModel model : productList){
-            if (!binding.bodyGoals.getEditText().getText().toString().isEmpty()){
+        for (ProductModel model : productList) {
+            if (!binding.bodyGoals.getEditText().getText().toString().isEmpty()) {
                 String[] bodyType = model.getBodyType().split(", ");
                 for (String type : bodyType) {
                     if (model.getName().equals(binding.products.getEditText().getText().toString()) && type.trim().equals(binding.bodyGoals.getEditText().getText().toString().trim())) {
@@ -197,13 +223,25 @@ public class DetailsFragment extends Fragment {
                     }
                 }
             } else {
-                if (model.getName().equals(binding.products.getEditText().getText().toString())){
+                if (model.getName().equals(binding.products.getEditText().getText().toString())) {
                     productModel = model;
                     break;
                 }
             }
         }
-        if (productModel != null){
+        if (productModel != null) {
+            binding.favorite.setVisibility(View.VISIBLE);
+            binding.favorite.setEnabled(true);
+            binding.favorite.setText("Add to favorites");
+            binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_regular));
+            ArrayList<ProductModel> Favrtlist = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
+            for (ProductModel favr : Favrtlist){
+                if (favr.getID().equals(productModel.getID())){
+                    binding.favorite.setText("Already added to favorites");
+                    binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_solid));
+                    binding.favorite.setEnabled(false);
+                }
+            }
             binding.cardImage.setVisibility(View.VISIBLE);
             Glide.with(this).load(productModel.getImage()).into(binding.imageView);
 
@@ -226,13 +264,24 @@ public class DetailsFragment extends Fragment {
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 mainActivity.bottomNavigationView.setSelectedItemId(R.id.calculator);
             });
+
+            binding.favorite.setOnClickListener(v -> {
+                ArrayList<ProductModel> list = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
+                list.add(finalProductModel);
+                Stash.put(Constants.FAVORITE_LIST, list);
+                binding.favorite.setText("Added to favorites");
+                binding.favorite.setEnabled(false);
+                Toast.makeText(requireContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
+                binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_solid));
+            });
+
         }
     }
 
     private void setProductAdapter(boolean b) {
-        if (b){
+        if (b) {
             ArrayList<String> products = new ArrayList<>();
-            for (ProductModel model : productList){
+            for (ProductModel model : productList) {
                 String[] bodyType = model.getBodyType().split(", ");
                 for (String type : bodyType) {
                     if (type.trim().equals(binding.bodyGoals.getEditText().getText().toString().trim())) {
@@ -244,7 +293,7 @@ public class DetailsFragment extends Fragment {
             binding.productsList.setAdapter(productAdapter);
         } else {
             ArrayList<String> products = new ArrayList<>();
-            for (ProductModel model : productList){
+            for (ProductModel model : productList) {
                 products.add(model.getName());
             }
             ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
