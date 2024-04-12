@@ -1,11 +1,14 @@
 package com.moutamid.peptidesapp.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -139,8 +143,8 @@ public class DetailsFragment extends Fragment {
             binding.favorite.setText("Add to favorites");
             binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_regular));
             ArrayList<ProductModel> Favrtlist = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
-            for (ProductModel favr : Favrtlist){
-                if (favr.getID().equals(productModel.getID())){
+            for (ProductModel favr : Favrtlist) {
+                if (favr.getID().equals(productModel.getID())) {
                     binding.favorite.setText("Already added to favorites");
                     binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_solid));
                     binding.favorite.setEnabled(false);
@@ -235,8 +239,8 @@ public class DetailsFragment extends Fragment {
             binding.favorite.setText("Add to favorites");
             binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_regular));
             ArrayList<ProductModel> Favrtlist = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
-            for (ProductModel favr : Favrtlist){
-                if (favr.getID().equals(productModel.getID())){
+            for (ProductModel favr : Favrtlist) {
+                if (favr.getID().equals(productModel.getID())) {
                     binding.favorite.setText("Already added to favorites");
                     binding.favorite.setIcon(getResources().getDrawable(R.drawable.heart_solid));
                     binding.favorite.setEnabled(false);
@@ -255,9 +259,27 @@ public class DetailsFragment extends Fragment {
             spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             binding.doseInfo.setText(spannableString);
-
             binding.shortDesc.setText(spannableString);
-            binding.longDesc.setText(productModel.getLongDesc());
+
+            String longDesc = productModel.getLongDesc();
+            String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+            String combined = longDesc.concat("\n\n").concat(link);
+            SpannableString longString = new SpannableString(combined);
+            int startIndex = Math.min(longDesc.length(), combined.length());
+            int endIndex = combined.length();
+//            longString.setSpan(new ClickableSpan() {
+//                @Override
+//                public void onClick(@NonNull View v) {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+//                }
+//            }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            longString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.longDesc.setText(longString);
+            binding.longDesc.setOnClickListener(v -> {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+
             ProductModel finalProductModel = productModel;
             binding.shortDesc.setOnClickListener(v -> {
                 Stash.put(Constants.DOSE, finalProductModel);

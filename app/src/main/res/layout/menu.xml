@@ -48,7 +48,7 @@
             android:backgroundTint="@color/grey"
             android:gravity="start|center"
             android:paddingStart="20dp"
-            android:text="About Us"
+            android:text="About"
             android:textColor="@color/black"
             app:cornerRadius="12dp"
             app:icon="@drawable/circle_info_solid"
