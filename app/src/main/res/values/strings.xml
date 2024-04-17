@@ -7,6 +7,14 @@
     <string name="phone">+27609974604</string>
     <string name="whatsapp">https://wa.me/+27609974604</string>
     <string name="email">info@peptides.co.za</string>
+    <string name="eula_start">Research Peptides South Africa Peptide Pocket Guide hereby grants you access to</string>
+    <string name="eula_end">and invites you to make use of the services offered here.\n\n
+        In all instances of use please note the following details:
+        \n\u2192 The products shown within our application are research chemicals used for research purposes only.
+        \n\u2192 Dosing information are indication doses based on most commonly used dosages as well as most successful dosages used based on our extensive market reasearch.
+        \n\u2192 The application is used at your own risk and at your own discretion.
+        \n\u2192 At the time of publication of this application, all information is deemed correct.</string>
+
     <string name="disclaimer">This software is provided AS IS without warranty of any kind. In no event will author be liable for any damages caused by using this product. \n\n
         You may not rent, lease, lend, sell, redistribute or sublicense this software. You may not modify, or create derivative works of this software.</string>
 

@@ -5,13 +5,21 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -87,6 +95,28 @@ public class Menu {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(true);
         dialog.show();
+
+        TextView eula = dialog.findViewById(R.id.eula);
+        TextView link = dialog.findViewById(R.id.link);
+
+        String eula_start = activity.getString(R.string.eula_start);
+        String eula_end = activity.getString(R.string.eula_end);
+
+        String appName = activity.getString(R.string.app_name);
+//        SpannableString nameString = new SpannableString(appName);
+//        nameString.setSpan(new ForegroundColorSpan(activity.getColor(R.color.green)), 0, appName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        nameString.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, appName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        CharSequence appNameSequence = TextUtils.concat(nameString);
+        String EULA = eula_start + " " + appName + " " + eula_end;
+        eula.setText(EULA);
+
+        String l = "https://www.peptides.co.za/eula/";
+        SpannableString spannableString = new SpannableString(l);
+        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, l.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new UnderlineSpan(), 0, l.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        link.setText(spannableString);
+
+        link.setOnClickListener(v -> activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(l))));
 
         MaterialButton close = dialog.findViewById(R.id.close);
         close.setOnClickListener(v -> dialog.dismiss());

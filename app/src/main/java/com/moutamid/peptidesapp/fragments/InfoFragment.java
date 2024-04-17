@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -52,12 +53,11 @@ public class InfoFragment extends Fragment {
         email.setOnClickListener(v -> {
             String emailAddress = getResources().getString(R.string.email);
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:" + emailAddress));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject of the email");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Body of the email");
-            if (emailIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivity(emailIntent);
-            }
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getActivity().getString(R.string.app_name));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Your Message");
+            startActivity(emailIntent);
         });
 
         phone.setOnClickListener(v -> {
