@@ -1,6 +1,8 @@
 package com.moutamid.peptidesapp.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -13,16 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
-import com.moutamid.peptidesapp.activities.MainActivity;
 import com.moutamid.peptidesapp.Menu;
 import com.moutamid.peptidesapp.R;
+import com.moutamid.peptidesapp.activities.MainActivity;
 import com.moutamid.peptidesapp.databinding.FragmentCalculatorBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
 
@@ -195,31 +196,37 @@ public class CalculatorFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ProductModel passModel = (ProductModel) Stash.getObject(Constants.DOSE, ProductModel.class);
-        if (passModel != null){
+        if (passModel != null) {
             setPassData(passModel);
         }
     }
 
     private void setPassData(ProductModel productModel) {
         try {
-            String originalText = productModel.getDoseInfo() + " ";
-            String learnMoreText = "Product Info";
-            String combinedText = originalText + learnMoreText;
-            // Create a SpannableString
-            SpannableString spannableString = new SpannableString(combinedText);
+//            String originalText = productModel.getDoseInfo() + " ";
+//            String learnMoreText = "Product Info";
+//            String combinedText = originalText + learnMoreText;
+//            // Create a SpannableString
+//            SpannableString spannableString = new SpannableString(combinedText);
+//
+//            int blueColor = Color.BLUE;
+//            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.detail.setText(productModel.getDoseInfo());
 
-            int blueColor = Color.BLUE;
-            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.detail.setText(spannableString);
-
-            binding.detail.setOnClickListener(v -> {
+            binding.productInfo.setVisibility(View.VISIBLE);
+            binding.website.setVisibility(View.VISIBLE);
+            binding.website.setOnClickListener(v -> {
+                String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+            binding.productInfo.setOnClickListener(v -> {
                 Stash.put(Constants.PASS, productModel);
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
             });
 
-            if (productModel.isSARMS()){
+            if (productModel.isSARMS()) {
                 binding.calculator.setVisibility(View.GONE);
                 binding.cardImage.setVisibility(View.VISIBLE);
             } else {
@@ -227,7 +234,7 @@ public class CalculatorFragment extends Fragment {
                 binding.cardImage.setVisibility(View.GONE);
             }
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -253,18 +260,24 @@ public class CalculatorFragment extends Fragment {
     private void setUI() {
         ProductModel productModel = productList.stream().filter(model -> model.getName().equals(binding.products.getEditText().getText().toString())).findFirst().orElse(null);
         if (productModel != null) {
-            String originalText = productModel.getDoseInfo() + " ";
-            String learnMoreText = "Product Info";
-            String combinedText = originalText + learnMoreText;
-            // Create a SpannableString
-            SpannableString spannableString = new SpannableString(combinedText);
+//            String originalText = productModel.getDoseInfo() + " ";
+//            String learnMoreText = "Product Info";
+//            String combinedText = originalText + learnMoreText;
+//            // Create a SpannableString
+//            SpannableString spannableString = new SpannableString(combinedText);
+//
+//            int blueColor = Color.BLUE;
+//            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.detail.setText(productModel.getDoseInfo());
 
-            int blueColor = Color.BLUE;
-            spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.detail.setText(spannableString);
-
-            binding.detail.setOnClickListener(v -> {
+            binding.productInfo.setVisibility(View.VISIBLE);
+            binding.website.setVisibility(View.VISIBLE);
+            binding.website.setOnClickListener(v -> {
+                String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+            binding.productInfo.setOnClickListener(v -> {
                 Stash.put(Constants.PASS, productModel);
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
@@ -281,12 +294,12 @@ public class CalculatorFragment extends Fragment {
         }
     }
 
-// 200 / 2ml water divided by 5000 (5mg) x 250 = 10
+    // 200 / 2ml water divided by 5000 (5mg) x 250 = 10
     public static float calculateSyringePull(double targetPeptideDose, double peptideAmountInVial, double bacteriostaticWaterAmount) {
         float water = (float) (bacteriostaticWaterAmount * 100);
         float vial = (float) (peptideAmountInVial * 1000);
         float dose = (float) (targetPeptideDose);
-        return water/vial * dose;
+        return water / vial * dose;
     }
 
     private void unit30() {

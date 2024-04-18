@@ -45,7 +45,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardImage"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:cardElevation="6dp"
                 android:layout_margin="15dp"
                 android:visibility="gone"
@@ -61,14 +61,69 @@
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/detail"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:layout_weight="1"
-                android:text="> Select Product to see it's description."
-                android:textSize="18dp" />
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:layout_weight="1"
+                    android:text="> Select Product to see it's description."
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="100dp"
+                        android:layout_marginStart="12dp"
+                        app:cardBackgroundColor="@color/green_light"
+                        app:cardElevation="0dp"
+                        android:visibility="gone"
+                        app:strokeWidth="0dp"
+                        android:id="@+id/productInfo">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/circle_info_solid"
+                            android:layout_margin="5dp"
+                            app:tint="@color/white" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="100dp"
+                        android:layout_marginStart="8dp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="@color/green_light"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp"
+                        android:id="@+id/website">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/earth_americas_solid"
+                            android:layout_margin="5dp"
+                            app:tint="@color/white" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

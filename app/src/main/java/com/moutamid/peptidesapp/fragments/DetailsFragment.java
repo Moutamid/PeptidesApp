@@ -151,6 +151,18 @@ public class DetailsFragment extends Fragment {
                 }
             }
             binding.cardImage.setVisibility(View.VISIBLE);
+
+            binding.link.setVisibility(View.VISIBLE);
+            binding.website.setOnClickListener(v -> {
+                String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+            binding.calculator.setOnClickListener(v -> {
+                Stash.put(Constants.DOSE, productModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.calculator);
+            });
+
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
             binding.longDesc.setText(productModel.getLongDesc());
 
@@ -163,9 +175,27 @@ public class DetailsFragment extends Fragment {
             int blueColor = Color.BLUE;
             spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.doseInfo.setText(spannableString);
 
             binding.shortDesc.setText(spannableString);
+
+            String longDesc = productModel.getLongDesc();
+            String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+            String combined = longDesc.concat("\n\n").concat(link);
+            SpannableString longString = new SpannableString(combined);
+            int startIndex = Math.min(longDesc.length(), combined.length());
+            int endIndex = combined.length();
+//            longString.setSpan(new ClickableSpan() {
+//                @Override
+//                public void onClick(@NonNull View v) {
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+//                }
+//            }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            longString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.longDesc.setText(longString);
+            binding.longDesc.setOnClickListener(v -> {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
 
             binding.shortDesc.setOnClickListener(v -> {
                 Stash.put(Constants.DOSE, productModel);
@@ -247,6 +277,7 @@ public class DetailsFragment extends Fragment {
                 }
             }
             binding.cardImage.setVisibility(View.VISIBLE);
+
             Glide.with(this).load(productModel.getImage()).into(binding.imageView);
 
             String originalText = productModel.getShortDesc() + " ";
@@ -258,7 +289,6 @@ public class DetailsFragment extends Fragment {
             int blueColor = Color.BLUE;
             spannableString.setSpan(new ForegroundColorSpan(blueColor), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.doseInfo.setText(spannableString);
             binding.shortDesc.setText(spannableString);
 
             String longDesc = productModel.getLongDesc();
@@ -286,7 +316,15 @@ public class DetailsFragment extends Fragment {
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 mainActivity.bottomNavigationView.setSelectedItemId(R.id.calculator);
             });
-
+            binding.link.setVisibility(View.VISIBLE);
+            binding.website.setOnClickListener(v -> {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+            binding.calculator.setOnClickListener(v -> {
+                Stash.put(Constants.DOSE, finalProductModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.calculator);
+            });
             binding.favorite.setOnClickListener(v -> {
                 ArrayList<ProductModel> list = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
                 list.add(finalProductModel);
