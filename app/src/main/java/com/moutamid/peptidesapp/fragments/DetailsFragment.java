@@ -167,7 +167,7 @@ public class DetailsFragment extends Fragment {
             binding.longDesc.setText(productModel.getLongDesc());
 
             String originalText = productModel.getShortDesc() + " ";
-            String learnMoreText = productModel.isSARMS() ? "Dosage Information." : "Calculate Dose";
+            String learnMoreText = productModel.isSARMS() ? "Dosage Information." : "";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
             SpannableString spannableString = new SpannableString(combinedText);
@@ -281,7 +281,7 @@ public class DetailsFragment extends Fragment {
             Glide.with(this).load(productModel.getImage()).into(binding.imageView);
 
             String originalText = productModel.getShortDesc() + " ";
-            String learnMoreText = productModel.isSARMS() ? "Dosage Information." : "Calculate Dose";
+            String learnMoreText = productModel.isSARMS() ? "Dosage Information." : "";
             String combinedText = originalText + learnMoreText;
             // Create a SpannableString
             SpannableString spannableString = new SpannableString(combinedText);
