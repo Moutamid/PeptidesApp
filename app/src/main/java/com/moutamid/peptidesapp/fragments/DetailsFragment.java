@@ -180,19 +180,19 @@ public class DetailsFragment extends Fragment {
 
             String longDesc = productModel.getLongDesc();
             String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
-            String combined = longDesc.concat("\n\n").concat(link);
-            SpannableString longString = new SpannableString(combined);
-            int startIndex = Math.min(longDesc.length(), combined.length());
-            int endIndex = combined.length();
-//            longString.setSpan(new ClickableSpan() {
-//                @Override
-//                public void onClick(@NonNull View v) {
-//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
-//                }
-//            }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            longString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.longDesc.setText(longString);
+//            String combined = longDesc.concat("\n\n").concat(link);
+//            SpannableString longString = new SpannableString(combined);
+//            int startIndex = Math.min(longDesc.length(), combined.length());
+//            int endIndex = combined.length();
+////            longString.setSpan(new ClickableSpan() {
+////                @Override
+////                public void onClick(@NonNull View v) {
+////                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+////                }
+////            }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            longString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.longDesc.setText(longDesc);
             binding.longDesc.setOnClickListener(v -> {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
             });
@@ -293,19 +293,19 @@ public class DetailsFragment extends Fragment {
 
             String longDesc = productModel.getLongDesc();
             String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
-            String combined = longDesc.concat("\n\n").concat(link);
-            SpannableString longString = new SpannableString(combined);
-            int startIndex = Math.min(longDesc.length(), combined.length());
-            int endIndex = combined.length();
-//            longString.setSpan(new ClickableSpan() {
-//                @Override
-//                public void onClick(@NonNull View v) {
-//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
-//                }
-//            }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            longString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            binding.longDesc.setText(longString);
+//            String combined = longDesc.concat("\n\n").concat(link);
+//            SpannableString longString = new SpannableString(combined);
+//            int startIndex = Math.min(longDesc.length(), combined.length());
+//            int endIndex = combined.length();
+////            longString.setSpan(new ClickableSpan() {
+////                @Override
+////                public void onClick(@NonNull View v) {
+////                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+////                }
+////            }, startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            longString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.longDesc.setText(longDesc);
             binding.longDesc.setOnClickListener(v -> {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
             });
