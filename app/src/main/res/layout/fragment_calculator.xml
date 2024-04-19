@@ -13,7 +13,9 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar" android:id="@+id/toolbar" />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/products"
@@ -46,11 +48,11 @@
                 android:id="@+id/cardImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardElevation="6dp"
                 android:layout_margin="15dp"
-                android:visibility="gone"
                 android:layout_marginBottom="10dp"
-                app:cardCornerRadius="12dp">
+                android:visibility="gone"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="6dp">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -71,8 +73,8 @@
                     android:id="@+id/detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
                     android:layout_weight="1"
+                    android:padding="12dp"
                     android:text="> Select Product to see it's description."
                     android:textSize="18dp" />
 
@@ -81,45 +83,76 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.google.android.material.card.MaterialCardView
+                    <LinearLayout
+                        android:id="@+id/productInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="100dp"
                         android:layout_marginStart="12dp"
-                        app:cardBackgroundColor="@color/green_light"
-                        app:cardElevation="0dp"
+                        android:gravity="center"
                         android:visibility="gone"
-                        app:strokeWidth="0dp"
-                        android:id="@+id/productInfo">
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/circle_info_solid"
-                            android:layout_margin="5dp"
-                            app:tint="@color/white" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="@color/green_light"
+                            app:cardCornerRadius="100dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
 
-                    </com.google.android.material.card.MaterialCardView>
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_margin="8dp"
+                                android:src="@drawable/circle_info_solid"
+                                app:tint="@color/white" />
 
-                    <com.google.android.material.card.MaterialCardView
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:text="Product\nInfo"
+                            android:textColor="@color/green" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/website"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="100dp"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="12dp"
+                        android:gravity="center"
                         android:visibility="gone"
-                        app:cardBackgroundColor="@color/green_light"
-                        app:cardElevation="0dp"
-                        app:strokeWidth="0dp"
-                        android:id="@+id/website">
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/earth_americas_solid"
-                            android:layout_margin="5dp"
-                            app:tint="@color/white" />
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="@color/green_light"
+                            app:cardCornerRadius="100dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp">
 
-                    </com.google.android.material.card.MaterialCardView>
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_margin="8dp"
+                                android:src="@drawable/earth_americas_solid"
+                                app:tint="@color/white" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:text="Shop"
+                            android:textColor="@color/green" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -128,10 +161,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/calculator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/calculator">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -144,19 +177,19 @@
                 android:id="@+id/syringe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/spinner"
-                android:layout_marginHorizontal="12dp" />
+                android:layout_marginHorizontal="12dp"
+                android:background="@drawable/spinner" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/units_30"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/white"
-                app:cardElevation="0dp"
-                app:strokeWidth="1dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="12dp"
-                app:cardCornerRadius="12dp">
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -170,12 +203,12 @@
                 android:id="@+id/units_50"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/white"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="10dp"
-                app:cardCornerRadius="12dp">
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -189,12 +222,12 @@
                 android:id="@+id/insulin_syringe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/white"
-                app:cardElevation="0dp"
-                app:strokeWidth="0dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="12dp"
-                app:cardCornerRadius="12dp">
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -207,8 +240,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -260,8 +293,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -336,7 +369,7 @@
                     android:id="@+id/peptideDoseList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -352,36 +385,36 @@
                 android:id="@+id/seek_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginEnd="15sp"
+                android:layout_marginBottom="15sp"
+                app:ssb_max="50"
+                app:ssb_min="0"
+                app:ssb_progress="0"
+                app:ssb_second_track_color="@color/green"
+                app:ssb_section_count="10"
+                app:ssb_section_text_color="@color/black"
                 app:ssb_section_text_position="below_section_mark"
+                app:ssb_seek_by_section="true"
                 app:ssb_show_progress_in_float="true"
                 app:ssb_show_section_mark="true"
                 app:ssb_show_section_text="true"
-                app:ssb_seek_by_section="true"
                 app:ssb_show_sign="true"
-                app:ssb_touch_to_seek="false"
                 app:ssb_show_thumb_text="false"
                 app:ssb_sign_arrow_height="0dp"
                 app:ssb_sign_arrow_width="0dp"
-                android:layout_marginStart="15sp"
-                app:ssb_max="50"
-                app:ssb_section_count="10"
-                app:ssb_min="0"
-                android:layout_marginEnd="15sp"
-                android:layout_marginBottom="15sp"
-                android:layout_marginTop="10sp"
-                app:ssb_track_color="@color/grey"
-                app:ssb_second_track_color="@color/green"
-                app:ssb_thumb_text_color="@color/green"
-                app:ssb_progress="0"
-                app:ssb_section_text_color="@color/black"
-                app:ssb_thumb_color="@color/white"
                 app:ssb_sign_border_color="@color/green"
                 app:ssb_sign_border_size="1dp"
                 app:ssb_sign_color="@color/green"
-                app:ssb_sign_width="35sp"
                 app:ssb_sign_height="22sp"
+                app:ssb_sign_show_border="true"
                 app:ssb_sign_text_color="@color/white"
-                app:ssb_sign_show_border="true"/>
+                app:ssb_sign_width="35sp"
+                app:ssb_thumb_color="@color/white"
+                app:ssb_thumb_text_color="@color/green"
+                app:ssb_touch_to_seek="false"
+                app:ssb_track_color="@color/grey" />
 
         </LinearLayout>
 
