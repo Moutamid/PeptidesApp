@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.Easter;
 import com.moutamid.peptidesapp.Menu;
 import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.activities.MainActivity;
@@ -37,6 +39,9 @@ public class CalculatorFragment extends Fragment {
     String volumn = "";
     ArrayList<ProductModel> productList;
 
+    int position = 0;
+    int comparingPosition = 0;
+    boolean syringeVolumn = false;
     public CalculatorFragment() {
         // Required empty public constructor
     }
@@ -67,10 +72,12 @@ public class CalculatorFragment extends Fragment {
         }
         ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
         binding.productsList.setAdapter(productAdapter);
-
+        position = productAdapter.getPosition(getResources().getString(R.string.secret_product_calculator));
         binding.productsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                comparingPosition = position;
+                Log.d(TAG, "comparingPosition: " + comparingPosition);
                 setUI();
             }
         });
@@ -303,6 +310,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void unit30() {
+        syringeVolumn = false;
         binding.units30.setStrokeWidth(5);
         binding.units50.setStrokeWidth(0);
         binding.insulinSyringe.setStrokeWidth(0);
@@ -312,6 +320,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void unit50() {
+        syringeVolumn = false;
         binding.units30.setStrokeWidth(0);
         binding.units50.setStrokeWidth(5);
         binding.insulinSyringe.setStrokeWidth(0);
@@ -321,6 +330,7 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void insulinSyringe() {
+        syringeVolumn = true;
         binding.units30.setStrokeWidth(0);
         binding.units50.setStrokeWidth(0);
         binding.insulinSyringe.setStrokeWidth(5);
@@ -337,6 +347,22 @@ public class CalculatorFragment extends Fragment {
             double syringeSizes = Double.parseDouble(volumn);
             float syringePullInfo = calculateSyringePull(targetPeptideDose, peptideAmountInVial, bacteriostaticWaterAmount);
             binding.seekBar.setProgress(syringePullInfo);
+        }
+        checkEaster();
+    }
+
+    private void checkEaster() {
+        if (Stash.getBoolean(Constants.EASTER, false)) {
+            if (position == comparingPosition) {
+                boolean vialAmount = binding.peptide.getEditText().getText().toString().equals("15");
+                boolean waterAmount = binding.bacteriostatic.getEditText().getText().toString().equals("5");
+                if (syringeVolumn && vialAmount && waterAmount) {
+                    if (Stash.getBoolean(Constants.EASTER_2, false) && !Stash.getBoolean(Constants.EASTER_3, false)) {
+                        Stash.put(Constants.EASTER_3, true);
+                        new Easter(requireActivity()).showEaster();
+                    }
+                }
+            }
         }
     }
 
