@@ -8,9 +8,9 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +18,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.Easter;
 import com.moutamid.peptidesapp.Menu;
 import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.activities.MainActivity;
@@ -33,10 +33,13 @@ import com.moutamid.peptidesapp.model.ProductModel;
 import java.util.ArrayList;
 
 public class DetailsFragment extends Fragment {
+    private static final String TAG = "DetailsFragment";
     FragmentDetailsBinding binding;
     ArrayList<ProductModel> productList;
     ArrayList<String> products;
     ArrayList<String> bodyList;
+    int position = 0;
+    int comparingPosition = 0;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -52,11 +55,15 @@ public class DetailsFragment extends Fragment {
         for (ProductModel model : productList) {
             products.add(model.getName());
         }
+
         ArrayAdapter<String> bodyAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, bodyList);
         ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
 
         binding.bodyGoalsList.setAdapter(bodyAdapter);
         binding.productsList.setAdapter(productAdapter);
+
+        position = productAdapter.getPosition(getResources().getString(R.string.secret_product_detail));
+        Log.d(TAG, "onResume: " + position);
 
         ProductModel passModel = (ProductModel) Stash.getObject(Constants.PASS, ProductModel.class);
         if (passModel != null) {
@@ -117,6 +124,8 @@ public class DetailsFragment extends Fragment {
         binding.productsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                comparingPosition = position;
+                Log.d(TAG, "comparingPosition: " + comparingPosition);
                 setUI();
             }
         });
@@ -318,7 +327,22 @@ public class DetailsFragment extends Fragment {
             });
             binding.link.setVisibility(View.VISIBLE);
             binding.website.setOnClickListener(v -> {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+                if (Stash.getBoolean(Constants.EASTER, false)) {
+                    if (position == comparingPosition) {
+                        Log.d(TAG, "setUI: " + Stash.getBoolean(Constants.EASTER_1, false));
+                        if (Stash.getBoolean(Constants.EASTER_1, false) && !Stash.getBoolean(Constants.EASTER_2, false)) {
+                            Stash.put(Constants.EASTER_2, true);
+                            new Easter(requireActivity()).showEaster();
+                        } else {
+                            Log.d(TAG, "link: ");
+                            openLink(link);
+                        }
+                    } else {
+                        openLink(link);
+                    }
+                } else {
+                    openLink(link);
+                }
             });
             binding.calculator.setOnClickListener(v -> {
                 Stash.put(Constants.DOSE, finalProductModel);
@@ -336,6 +360,10 @@ public class DetailsFragment extends Fragment {
             });
 
         }
+    }
+
+    private void openLink(String link) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
     }
 
     private void setProductAdapter(boolean b) {

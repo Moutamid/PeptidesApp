@@ -1,16 +1,16 @@
 package com.moutamid.peptidesapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.Easter;
 import com.moutamid.peptidesapp.FavoritesAdapter;
-import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.databinding.ActivityFavoriteBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
 
@@ -20,6 +20,7 @@ public class FavoriteActivity extends AppCompatActivity {
     ActivityFavoriteBinding binding;
     ArrayList<ProductModel> list;
     FavoritesAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,16 @@ public class FavoriteActivity extends AppCompatActivity {
         binding.favoriteRc.setHasFixedSize(false);
 
         list = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
+
+        if (list.size() > 5) {
+            if (Stash.getBoolean(Constants.EASTER, false)) {
+                if (Stash.getBoolean(Constants.EASTER_3, false) && !Stash.getBoolean(Constants.EASTER_4, false)) {
+                    Stash.put(Constants.EASTER_4, true);
+                    new Easter(this).showEaster();
+                }
+            }
+        }
+
         adapter = new FavoritesAdapter(this, list, clickListener);
         binding.favoriteRc.setAdapter(adapter);
     }

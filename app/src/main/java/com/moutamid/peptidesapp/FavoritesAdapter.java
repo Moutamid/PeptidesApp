@@ -64,9 +64,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         longString.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.green)), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         longString.setSpan(new UnderlineSpan(), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.more.setText(longString);
-        holder.more.setOnClickListener(v -> {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
-        });
+        holder.more.setOnClickListener(v -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link))));
     }
 
     @Override
