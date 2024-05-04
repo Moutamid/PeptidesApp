@@ -1,16 +1,26 @@
 package com.moutamid.peptidesapp.activities;
 
+import android.app.Dialog;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.moutamid.peptidesapp.Constants;
+import com.moutamid.peptidesapp.Easter;
 import com.moutamid.peptidesapp.R;
 import com.moutamid.peptidesapp.databinding.ActivityMainBinding;
 import com.moutamid.peptidesapp.fragments.CalculatorFragment;
@@ -22,11 +32,13 @@ import com.moutamid.peptidesapp.model.ProductModel;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
     public BottomNavigationView bottomNavigationView;
+    private int clickCount = 0;
+    private boolean isEasterEnable = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +52,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
+        Constants.databaseReference().child(Constants.EASTER).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                isEasterEnable = Boolean.TRUE.equals(snapshot.getValue(Boolean.class));
+                Stash.put(Constants.EASTER, isEasterEnable);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         Stash.clear(Constants.PASS);
         Stash.clear(Constants.DOSE);
 
@@ -72,15 +95,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.home) {
+            clickCount = 0;
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new HomeFragment()).commit();
             return true;
         } else if (item.getItemId() == R.id.calculator) {
+            clickCount = 0;
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new CalculatorFragment()).commit();
             return true;
         } else if (item.getItemId() == R.id.details) {
+            clickCount = 0;
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new DetailsFragment()).commit();
             return true;
         } else if (item.getItemId() == R.id.info) {
+            if (isEasterEnable) {
+                if (!Stash.getBoolean(Constants.EASTER_1, false)) {
+                    clickCount++;
+                    if (clickCount == 8) {
+                        clickCount = 0;
+                        Stash.put(Constants.EASTER_1, true);
+                        new Easter(this).showEaster();
+                    }
+                }
+            }
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new InfoFragment()).commit();
             return true;
         }
