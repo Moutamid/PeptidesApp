@@ -39,7 +39,10 @@ public class FavoriteActivity extends AppCompatActivity {
 
         if (list.size() > 5) {
             if (Stash.getBoolean(Constants.EASTER, false)) {
-                if (Stash.getBoolean(Constants.EASTER_3, false) && !Stash.getBoolean(Constants.EASTER_4, false)) {
+                if (
+                        (Stash.getBoolean(Constants.EASTER_3, false) && !Stash.getBoolean(Constants.EASTER_4, false))
+                                || Stash.getBoolean(Constants.EASTER_FOR_ALL)
+                ) {
                     Stash.put(Constants.EASTER_4, true);
                     new Easter(this).showEaster();
                 }

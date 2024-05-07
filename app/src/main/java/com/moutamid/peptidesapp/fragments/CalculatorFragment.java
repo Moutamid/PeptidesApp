@@ -1,15 +1,10 @@
 package com.moutamid.peptidesapp.fragments;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +37,7 @@ public class CalculatorFragment extends Fragment {
     int position = 0;
     int comparingPosition = 0;
     boolean syringeVolumn = false;
+
     public CalculatorFragment() {
         // Required empty public constructor
     }
@@ -357,7 +353,10 @@ public class CalculatorFragment extends Fragment {
                 boolean vialAmount = binding.peptide.getEditText().getText().toString().equals("15");
                 boolean waterAmount = binding.bacteriostatic.getEditText().getText().toString().equals("5");
                 if (syringeVolumn && vialAmount && waterAmount) {
-                    if (Stash.getBoolean(Constants.EASTER_2, false) && !Stash.getBoolean(Constants.EASTER_3, false)) {
+                    if (
+                            (Stash.getBoolean(Constants.EASTER_2, false) && !Stash.getBoolean(Constants.EASTER_3, false))
+                                    || Stash.getBoolean(Constants.EASTER_FOR_ALL)
+                    ) {
                         Stash.put(Constants.EASTER_3, true);
                         new Easter(requireActivity()).showEaster();
                     }

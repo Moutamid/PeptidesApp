@@ -36,6 +36,9 @@ public class Constants {
     public static final String PRODUCTS_LIST = "PRODUCTS_LIST";
     public static final String FAVORITE_LIST = "FAVORITE_LIST";
     public static final String EASTER = "Easter";
+    public static final String EASTER_FOR_ALL = "EASTER_FOR_ALL";
+    public static final String EMAIL = "EMAIL";
+    public static final String PROMO = "PROMO";
     public static final String EASTER_COUNT = "EASTER_COUNT";
     public static final String EASTER_1 = "EASTER_1";
     public static final String EASTER_2 = "EASTER_2";

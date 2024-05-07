@@ -330,7 +330,10 @@ public class DetailsFragment extends Fragment {
                 if (Stash.getBoolean(Constants.EASTER, false)) {
                     if (position == comparingPosition) {
                         Log.d(TAG, "setUI: " + Stash.getBoolean(Constants.EASTER_1, false));
-                        if (Stash.getBoolean(Constants.EASTER_1, false) && !Stash.getBoolean(Constants.EASTER_2, false)) {
+                        if (
+                                (Stash.getBoolean(Constants.EASTER_1, false) && !Stash.getBoolean(Constants.EASTER_2, false))
+                                || Stash.getBoolean(Constants.EASTER_FOR_ALL)
+                        ) {
                             Stash.put(Constants.EASTER_2, true);
                             new Easter(requireActivity()).showEaster();
                         } else {

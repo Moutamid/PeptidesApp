@@ -64,6 +64,32 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
+        Constants.databaseReference().child(Constants.EASTER_FOR_ALL).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean isMultiple = Boolean.TRUE.equals(snapshot.getValue(Boolean.class));
+                if (isMultiple) Stash.clear(Constants.EASTER_COUNT);
+                Stash.put(Constants.EASTER_FOR_ALL, isMultiple);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Constants.databaseReference().child(Constants.PROMO).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String promo = snapshot.getValue(String.class);
+                Stash.put(Constants.PROMO, promo);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         Stash.clear(Constants.PASS);
         Stash.clear(Constants.DOSE);
 
@@ -108,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return true;
         } else if (item.getItemId() == R.id.info) {
             if (isEasterEnable) {
-                if (!Stash.getBoolean(Constants.EASTER_1, false)) {
+                if (!Stash.getBoolean(Constants.EASTER_1, false) || Stash.getBoolean(Constants.EASTER_FOR_ALL)) {
                     clickCount++;
                     if (clickCount == 8) {
                         clickCount = 0;

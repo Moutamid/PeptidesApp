@@ -39,18 +39,8 @@ public class Easter {
 
         TextView messageView = dialog.findViewById(R.id.message);
         TextView codeView = dialog.findViewById(R.id.code);
-        String code = "";
         String text = "Your secret code is";
-
-        if (count == 1) {
-            code = activity.getResources().getString(R.string.secret_code_1);
-        } else if (count == 2) {
-            code = activity.getResources().getString(R.string.secret_code_2);
-        } else if (count == 3) {
-            code = activity.getResources().getString(R.string.secret_code_3);
-        } else if (count == 4) {
-            code = activity.getResources().getString(R.string.secret_code_4);
-        }
+        String code = text + " " + Stash.getString(Constants.PROMO).split(", ")[count-1];
 
         SpannableString codeString = new SpannableString(code);
         int startIndex = Math.min(text.length(), code.length());
