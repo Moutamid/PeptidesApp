@@ -352,13 +352,13 @@ public class CalculatorFragment extends Fragment {
             if (position == comparingPosition) {
                 boolean vialAmount = binding.peptide.getEditText().getText().toString().equals("15");
                 boolean waterAmount = binding.bacteriostatic.getEditText().getText().toString().equals("5");
-                if (syringeVolumn && vialAmount && waterAmount) {
+                boolean peptide = !binding.peptideDose.getEditText().getText().toString().isEmpty();
+                if (syringeVolumn && vialAmount && waterAmount && peptide) {
                     if (
-                            (Stash.getBoolean(Constants.EASTER_2, false) && !Stash.getBoolean(Constants.EASTER_3, false))
+                            !Stash.getBoolean(Constants.EASTER_3, false)
                                     || Stash.getBoolean(Constants.EASTER_FOR_ALL)
                     ) {
-                        Stash.put(Constants.EASTER_3, true);
-                        new Easter(requireActivity()).showEaster();
+                        new Easter(requireActivity()).showEaster(Stash.getBoolean(Constants.EASTER_3, false), 3);
                     }
                 }
             }

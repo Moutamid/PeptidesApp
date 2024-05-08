@@ -30,6 +30,7 @@ public class FavoriteActivity extends AppCompatActivity {
         binding.toolbar.title.setText("Favorites");
         binding.toolbar.menu.setVisibility(View.GONE);
         binding.toolbar.back.setVisibility(View.VISIBLE);
+        binding.toolbar.list.setVisibility(View.VISIBLE);
         binding.toolbar.back.setOnClickListener(v -> finish());
 
         binding.favoriteRc.setLayoutManager(new LinearLayoutManager(this));
@@ -37,14 +38,15 @@ public class FavoriteActivity extends AppCompatActivity {
 
         list = Stash.getArrayList(Constants.FAVORITE_LIST, ProductModel.class);
 
+        binding.toolbar.list.setText("Total item's: " + list.size());
+
         if (list.size() > 5) {
             if (Stash.getBoolean(Constants.EASTER, false)) {
                 if (
-                        (Stash.getBoolean(Constants.EASTER_3, false) && !Stash.getBoolean(Constants.EASTER_4, false))
+                        !Stash.getBoolean(Constants.EASTER_4, false)
                                 || Stash.getBoolean(Constants.EASTER_FOR_ALL)
                 ) {
-                    Stash.put(Constants.EASTER_4, true);
-                    new Easter(this).showEaster();
+                    new Easter(this).showEaster(Stash.getBoolean(Constants.EASTER_4, false), 4);
                 }
             }
         }

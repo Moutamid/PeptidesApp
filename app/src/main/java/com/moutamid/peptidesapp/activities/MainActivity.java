@@ -1,21 +1,14 @@
 package com.moutamid.peptidesapp.activities;
 
-import android.app.Dialog;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -138,8 +131,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     clickCount++;
                     if (clickCount == 8) {
                         clickCount = 0;
-                        Stash.put(Constants.EASTER_1, true);
-                        new Easter(this).showEaster();
+                        new Easter(this).showEaster(Stash.getBoolean(Constants.EASTER_1, false), 1);
                     }
                 }
             }
