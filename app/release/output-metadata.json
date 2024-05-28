@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 2,
-      "versionName": "1.1",
-      "outputFile": "RPSA-Peptide Pocket Reference-1.1-release.apk"
+      "versionCode": 3,
+      "versionName": "1.2",
+      "outputFile": "RPSA-Peptide Pocket Reference-1.2-release.apk"
     }
   ],
   "elementType": "File"

@@ -31,6 +31,7 @@ import com.moutamid.peptidesapp.databinding.FragmentDetailsBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DetailsFragment extends Fragment {
     private static final String TAG = "DetailsFragment";
@@ -55,7 +56,7 @@ public class DetailsFragment extends Fragment {
         for (ProductModel model : productList) {
             products.add(model.getName());
         }
-
+        Collections.sort(products);
         ArrayAdapter<String> bodyAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, bodyList);
         ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
 
@@ -379,6 +380,7 @@ public class DetailsFragment extends Fragment {
                     }
                 }
             }
+            Collections.sort(products);
             ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
             binding.productsList.setAdapter(productAdapter);
         } else {
@@ -386,6 +388,7 @@ public class DetailsFragment extends Fragment {
             for (ProductModel model : productList) {
                 products.add(model.getName());
             }
+            Collections.sort(products);
             ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
             binding.productsList.setAdapter(productAdapter);
         }

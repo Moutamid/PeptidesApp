@@ -25,6 +25,8 @@ import com.moutamid.peptidesapp.databinding.FragmentCalculatorBinding;
 import com.moutamid.peptidesapp.model.ProductModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class CalculatorFragment extends Fragment {
     private static final String TAG = "CalculatorFragment";
@@ -66,6 +68,7 @@ public class CalculatorFragment extends Fragment {
         for (ProductModel model : productList) {
             products.add(model.getName());
         }
+        Collections.sort(products);
         ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
         binding.productsList.setAdapter(productAdapter);
         position = productAdapter.getPosition(getResources().getString(R.string.secret_product_calculator));
@@ -217,8 +220,16 @@ public class CalculatorFragment extends Fragment {
 //            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             binding.detail.setText(productModel.getDoseInfo());
 
-            binding.productInfo.setVisibility(View.VISIBLE);
-            binding.website.setVisibility(View.VISIBLE);
+            binding.website2.setOnClickListener(v -> {
+                String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+            binding.productInfo2.setOnClickListener(v -> {
+                Stash.put(Constants.PASS, productModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
+            });
+
             binding.website.setOnClickListener(v -> {
                 String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
@@ -230,11 +241,15 @@ public class CalculatorFragment extends Fragment {
             });
 
             if (productModel.isSARMS()) {
+                binding.productInfo2.setVisibility(View.GONE);
+                binding.website2.setVisibility(View.GONE);
                 binding.calculator.setVisibility(View.GONE);
-                binding.cardImage.setVisibility(View.VISIBLE);
+                binding.imageLayout.setVisibility(View.VISIBLE);
             } else {
+                binding.productInfo2.setVisibility(View.VISIBLE);
+                binding.website2.setVisibility(View.VISIBLE);
                 binding.calculator.setVisibility(View.VISIBLE);
-                binding.cardImage.setVisibility(View.GONE);
+                binding.imageLayout.setVisibility(View.GONE);
             }
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
         } catch (Exception e) {
@@ -274,8 +289,6 @@ public class CalculatorFragment extends Fragment {
 //            spannableString.setSpan(new UnderlineSpan(), originalText.length(), combinedText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             binding.detail.setText(productModel.getDoseInfo());
 
-            binding.productInfo.setVisibility(View.VISIBLE);
-            binding.website.setVisibility(View.VISIBLE);
             binding.website.setOnClickListener(v -> {
                 String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
@@ -285,13 +298,26 @@ public class CalculatorFragment extends Fragment {
                 MainActivity mainActivity = (MainActivity) requireActivity();
                 mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
             });
+            binding.website2.setOnClickListener(v -> {
+                String link = productModel.getLink() != null ? productModel.getLink() : getString(R.string.website);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(link)));
+            });
+            binding.productInfo2.setOnClickListener(v -> {
+                Stash.put(Constants.PASS, productModel);
+                MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.bottomNavigationView.setSelectedItemId(R.id.details);
+            });
 
             if (productModel.isSARMS()) {
+                binding.productInfo2.setVisibility(View.GONE);
+                binding.website2.setVisibility(View.GONE);
                 binding.calculator.setVisibility(View.GONE);
-                binding.cardImage.setVisibility(View.VISIBLE);
+                binding.imageLayout.setVisibility(View.VISIBLE);
             } else {
+                binding.productInfo2.setVisibility(View.VISIBLE);
+                binding.website2.setVisibility(View.VISIBLE);
                 binding.calculator.setVisibility(View.VISIBLE);
-                binding.cardImage.setVisibility(View.GONE);
+                binding.imageLayout.setVisibility(View.GONE);
             }
             Glide.with(requireContext()).load(productModel.getImage()).into(binding.imageView);
         }
