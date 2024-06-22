@@ -333,7 +333,7 @@ public class DetailsFragment extends Fragment {
                         Log.d(TAG, "setUI: " + Stash.getBoolean(Constants.EASTER_1, false));
                         if (
                                 !Stash.getBoolean(Constants.EASTER_2, false)
-                                || Stash.getBoolean(Constants.EASTER_FOR_ALL)
+                                        || Stash.getBoolean(Constants.EASTER_FOR_ALL)
                         ) {
                             new Easter(requireActivity()).showEaster(Stash.getBoolean(Constants.EASTER_2, false), 2);
                         } else {
@@ -370,8 +370,11 @@ public class DetailsFragment extends Fragment {
     }
 
     private void setProductAdapter(boolean b) {
+        ArrayList<String> products = new ArrayList<>();
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
         if (b) {
-            ArrayList<String> products = new ArrayList<>();
             for (ProductModel model : productList) {
                 String[] bodyType = model.getBodyType().split(", ");
                 for (String type : bodyType) {
@@ -384,7 +387,6 @@ public class DetailsFragment extends Fragment {
             ArrayAdapter<String> productAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, products);
             binding.productsList.setAdapter(productAdapter);
         } else {
-            ArrayList<String> products = new ArrayList<>();
             for (ProductModel model : productList) {
                 products.add(model.getName());
             }

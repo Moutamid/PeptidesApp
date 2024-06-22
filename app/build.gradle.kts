@@ -12,8 +12,8 @@ android {
         applicationId = "com.moutamid.peptidesapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 4
-        versionName = "1.3"
+        versionCode = 5
+        versionName = "1.4"
         setProperty("archivesBaseName", "RPSA-Peptide Pocket Reference-$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
